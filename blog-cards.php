@@ -8,6 +8,22 @@
 
 if (!defined('ABSPATH')) exit;
 
+// Load Plugin Update Checker
+require plugin_dir_path(__FILE__) . 'plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+    'https://github.com/javidmirzaei/blog-cards/',
+    __FILE__,
+    'blog-cards'
+);
+
+// Optional: Set the branch to track (defaults to 'main')
+$myUpdateChecker->setBranch('main');
+
+// Enable release assets (ZIP files from GitHub Releases)
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+
 // Load admin settings
 require_once plugin_dir_path(__FILE__) . 'admin-settings.php';
 
