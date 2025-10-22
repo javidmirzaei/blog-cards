@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Blog Cards
  * Description: نمایش مقالات به صورت کارتی و زیبا با پشتیبانی از Elementor
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Arad Branding
  */
 
