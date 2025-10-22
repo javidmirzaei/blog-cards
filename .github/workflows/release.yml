@@ -1,0 +1,48 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Create blog-cards directory
+        run: |
+          mkdir -p blog-cards
+          rsync -av --exclude='.git' --exclude='.github' --exclude='blog-cards' ./ blog-cards/
+      
+      - name: Create ZIP file
+        run: |
+          zip -r blog-cards.zip blog-cards/
+      
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: blog-cards.zip
+          name: Blog Cards v${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## Blog Cards v${{ steps.get_version.outputs.VERSION }}
+            
+            ### نصب:
+            1. از طریق قالب: دکمه نصب را بزنید
+            2. دستی: این ZIP را در افزونه‌ها آپلود کنید
+            
+            ### تغییرات:
+            به [CHANGELOG](https://github.com/${{ github.repository }}/commits/main) مراجعه کنید.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
