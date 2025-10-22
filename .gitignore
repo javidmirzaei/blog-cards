@@ -16,6 +16,3 @@ Thumbs.db
 # Logs
 *.log
 
-# Plugin Update Checker (will be downloaded when plugin is installed)
-plugin-update-checker/
-
